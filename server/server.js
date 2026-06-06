@@ -25,7 +25,7 @@ app.use(helmet());
 app.use(express.json());
 const allowedOrigins = [
   "http://localhost:5173",          // For local development
-  "https://core-flow01.vercel.app" , // for production client
+  "https://core-flow-alpha.vercel.app" , // for production client
 ];
 
 app.use(cors({
