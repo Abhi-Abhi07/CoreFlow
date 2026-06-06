@@ -1,0 +1,180 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: 'Geist Variable', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Standard Theme Mappings */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* CoreFlow Brand Accents */
+  --color-core-cyan: var(--core-cyan);
+  --color-core-purple: var(--core-purple);
+
+  /* CPU Algorithm & Gantt Specific Mappings */
+  --color-gantt-running: var(--gantt-running);
+  --color-gantt-waiting: var(--gantt-waiting);
+  --color-gantt-idle: var(--gantt-idle);
+  --color-algo-rr: var(--algo-rr);
+  --color-algo-fcfs: var(--algo-fcfs);
+  --color-algo-sjf: var(--algo-sjf);
+
+  /* Border Radii */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background text-foreground antialiased selection:bg-primary/30 selection:text-primary;
+}
+
+/* =========================================
+   LIGHT THEME: Crisp, High-Tech, Legible
+   ========================================= */
+:root {
+  --background: #f8fafc;        /* Very light slate */
+  --foreground: #020617;        /* Slate 950 */
+
+  --card: #ffffff;              /* Pure white surfaces */
+  --card-foreground: #0f172a;
+  --card-border: #e2e8f0;
+
+  --popover: #ffffff;
+  --popover-foreground: #020617;
+
+  --primary: #00a8cc;           /* Deeper, highly legible cyan */
+  --primary-foreground: #ffffff;
+
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;  /* Legible subtext */
+
+  --accent: #f8fafc;
+  --accent-foreground: #0f172a;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #e2e8f0;            /* Crisp structural borders */
+  --input: #e2e8f0;
+  --ring: #00a8cc;
+
+  --radius: 0.75rem;
+
+  /* Brand */
+  --core-cyan: #00a8cc;
+  --core-purple: #7c3aed;
+
+  /* Data Viz: Gantt Chart States */
+  --gantt-running: #10b981;     /* Emerald for execution */
+  --gantt-waiting: #f59e0b;     /* Amber for ready queue */
+  --gantt-idle: #cbd5e1;        /* Muted slate for idle */
+
+  /* Data Viz: Algorithm Tags */
+  --algo-rr: #3b82f6;           /* Blue */
+  --algo-fcfs: #eab308;         /* Yellow */
+  --algo-sjf: #8b5cf6;          /* Violet */
+}
+
+/* =========================================
+   DARK THEME: Sleek, Immersive, Neon-Accented
+   ========================================= */
+.dark {
+  --background: #09090b;        /* Zinc 950 - Deepest black/gray */
+  --foreground: #fafafa;        /* Near white */
+
+  --card: #121214;              /* Elevated surface, slightly lighter than bg */
+  --card-foreground: #fafafa;
+  --card-border: #27272a;       /* Subtle separation */
+
+  --popover: #121214;
+  --popover-foreground: #fafafa;
+
+  --primary: #00d2ff;           /* Your signature neon cyan */
+  --primary-foreground: #000000;
+
+  --secondary: #27272a;
+  --secondary-foreground: #fafafa;
+
+  --muted: #1e1e20;             /* Inputs and inactive areas */
+  --muted-foreground: #a1a1aa;  /* Subtle subtext */
+
+  --accent: #27272a;
+  --accent-foreground: #fafafa;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #00d2ff;
+
+  /* Brand */
+  --core-cyan: #00d2ff;
+  --core-purple: #a855f7;
+
+  /* Data Viz: Gantt Chart States */
+  --gantt-running: #34d399;     /* Glowing Emerald */
+  --gantt-waiting: #fbbf24;     /* Glowing Amber */
+  --gantt-idle: #3f3f46;        /* Deep zinc */
+
+  /* Data Viz: Algorithm Tags */
+  --algo-rr: #60a5fa;           
+  --algo-fcfs: #fde047;
+  --algo-sjf: #a78bfa;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+}
+
+/* Custom Scrollbar styling for CoreFlow's Gantt View */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.2); /* muted-foreground opacity */
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.4); /* primary accent hover opacity */
+}

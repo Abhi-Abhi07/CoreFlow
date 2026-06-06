@@ -1,0 +1,150 @@
+        <div className="lg:col-span-2 space-y-6">
+          
+          {/* Configuration Panel */}
+          <div className="bg-card border border-border rounded-xl p-6 shadow-2xl shadow-black/5 dark:shadow-black/40">
+            <h2 className="text-sm font-mono tracking-widest text-muted-foreground uppercase mb-5 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-primary" /> Algorithm Configuration
+            </h2>
+            
+            <div className="grid md:grid-cols-3 gap-6">
+              <div>
+                <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">Algorithm Selection</label>
+                <div className="relative mt-1.5">
+                {/* Algorithm Selection */}
+                  <select 
+                    value={algorithm} 
+                    onChange={(e) => dispatch(setGlobalAlgorithm(e.target.value))}
+                    className="w-full text-xs p-3 bg-background border border-border rounded-lg text-foreground appearance-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition cursor-pointer shadow-sm"
+                  >
+                    <option>First-Come, First-Served (FCFS)</option>
+                    <option>Round Robin (RR)</option>
+                    <option>Shortest Job First (SJF)</option>
+                    <option>Shortest Remaining Time First (SRTF)</option>
+                    <option>Priority</option>
+                    <option>Preemptive Priority</option>
+                    <option>Multi Level Queue (MLQ)</option>
+                    <option>Multi Level Feedback Queue (MLFQ)</option>
+                  </select>
+                  <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-3.5 text-muted-foreground pointer-events-none" />
+                </div>
+              </div>
+              
+              <div>
+                <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">Time Quantum (ms)</label>
+                {/* Time Quantum Input (Notice we use parseInt so math works later) */}
+                <input 
+                  type="number" 
+                  min="0"
+                  max="10"
+                  value={timeQuantum} 
+                  onChange={(e) => {
+                    let val = parseInt(e.target.value, 10);
+                    if (isNaN(val)) val = 0; // Prevents crashing if the user backspaces the whole number
+                    
+                    // Strict clamp: never below 0, never above 10
+                    dispatch(setGlobalTimeQuantum(Math.min(10, Math.max(0, val))));
+                  }}
+                  className="w-full text-xs p-3 mt-1.5 bg-background border border-border rounded-lg text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition shadow-sm"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">Context Switch (ms)</label>
+                {/* Context Switch Input */}
+                <input 
+                  type="number" 
+                  min="0"
+                  max="10"
+                  value={contextSwitch} 
+                  onChange={(e) => {
+                    let val = parseInt(e.target.value, 10);
+                    if (isNaN(val)) val = 0; 
+                    
+                    // Strict clamp: never below 0, never above 10
+                    dispatch(setGlobalContextSwitch(Math.min(10, Math.max(0, val))));
+                  }}
+                  className="w-full text-xs p-3 mt-1.5 bg-background border border-border rounded-lg text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition shadow-sm"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Process Ingestion Table */}
+          <div className="bg-card border border-border rounded-xl p-6 shadow-2xl shadow-black/5 dark:shadow-black/40">
+            <h3 className="text-sm font-mono tracking-widest text-muted-foreground uppercase mb-4 flex items-center gap-2">
+              <Clock className="w-4 h-4 text-primary" /> Process Workload
+            </h3>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs text-muted-foreground border-collapse">
+                <thead>
+                  <tr className="border-b border-border text-foreground">
+                    <th className="py-3 px-4">PID</th>
+                    <th className="py-3 px-4">Arrival Time (ms)</th>
+                    <th className="py-3 px-4">Burst Time (ms)</th>
+                    <th className="py-3 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {processes.map((proc) => (
+                    <tr key={proc.id} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+                      <td className="py-3 px-4 font-bold text-foreground">{proc.id}</td>
+                      <td className="py-3 px-4">{proc.arrivalTime}</td>
+                      <td className="py-3 px-4">{proc.burstTime}</td>
+                      <td className="py-3 px-4 text-right">
+                        <button 
+                          onClick={() => removeProcess(proc.id)} 
+                          className="p-1.5 bg-background border border-border rounded hover:border-destructive transition text-muted-foreground hover:text-destructive cursor-pointer shadow-sm"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Form to Add New Process */}
+            <form onSubmit={addProcess} className="flex flex-wrap gap-4 mt-6 pt-6 border-t border-border items-end">
+              <div>
+                <label className="text-[10px] uppercase text-muted-foreground font-mono block mb-1">Arrival Time</label>
+                <input 
+                  type="number" 
+                  min="0"
+                  max="10"
+                  placeholder="0" 
+                  value={newArrival} 
+                  onChange={(e) => setNewArrival(e.target.value)}
+                  className="p-2.5 bg-background border border-border rounded-lg text-xs text-foreground w-36 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm transition-all" 
+                />
+              </div>
+              <div>
+                <label className="text-[10px] uppercase text-muted-foreground font-mono block mb-1">Burst Time</label>
+                <input 
+                  type="number" 
+                  min="1"
+                  max="10"
+                  placeholder="5" 
+                  value={newBurst} 
+                  onChange={(e) => setNewBurst(e.target.value)}
+                  className="p-2.5 bg-background border border-border rounded-lg text-xs text-foreground w-36 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary shadow-sm transition-all" 
+                />
+              </div>
+              <button 
+                type="submit" 
+                className="px-4 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-bold rounded-lg flex items-center gap-2 cursor-pointer shadow-md shadow-primary/20 transition-all"
+              >
+                <Plus className="w-4 h-4" /> Add Process
+              </button>
+            </form>
+          </div>
+        </div>
+
+
+
+i am creating a cpu scheduling visualizer project name -> coreflow.
+i want a consistent modern ui in my project every where for light and dark theme.
+so for creating modern and attractive ui update my index.css file for button,border,bg,text, primary,secondary,link, header,footer ,logo, for my algo charts ,Gantt chart etc. give my modern ui color combination for dark and light theme if the user see the website then user say amazing 
+
+backend i do myself.
