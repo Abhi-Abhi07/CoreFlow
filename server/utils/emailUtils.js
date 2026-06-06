@@ -15,6 +15,8 @@ export const verifyEmail = async (token, email) => {
     },
   });
 
+  await transporter.verify();
+
   // Use an environment variable for your client URL
   const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
   const verificationLink = `${clientUrl}/verify/${token}`;
@@ -58,6 +60,8 @@ export const sendOTPMail = async (otp, email) => {
       pass: process.env.USER_PASS,
     },
   });
+
+  await transporter.verify();
 
   const mailConfigurations = {
     // 2. Wrap sender name and email together
