@@ -15,10 +15,10 @@ import {
 } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { useToast } from '../utils/toastUtils';
 import { setUser } from '../redux/userSlice';
 import userLogo from '../assets/user.png'
+import { apiClient } from '@/services/apiClients';
 
 export default function Profile() {
   const params = useParams();
@@ -87,7 +87,7 @@ export default function Profile() {
         formData.append("file", file)
       }
 
-      const res = await axios.put(`http://localhost:8000/api/v1/user/update/${userId}`, formData, {
+      const res = await apiClient.put(`/api/v1/user/update/${userId}`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "multipart/form-data"
