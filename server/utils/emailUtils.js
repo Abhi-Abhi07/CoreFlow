@@ -17,9 +17,17 @@ export const verifyEmail = async (token, email) => {
 
   await transporter.verify();
 
-  // Use an environment variable for your client URL
-  const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+  // Use an environment variable for your client URL.
+  // This must be the front-end origin, not the backend API URL.
+  const clientUrl = (process.env.CLIENT_URL || "http://localhost:5173").replace(/\/+$/, "");
+  if (!/^https?:\/\//i.test(clientUrl)) {
+    throw new Error(
+      "Invalid CLIENT_URL environment variable. It must include the front-end origin, e.g. https://your-app.vercel.app",
+    );
+  }
+
   const verificationLink = `${clientUrl}/verify/${token}`;
+  console.log("Verification link generated:", verificationLink);
 
   const mailConfigurations = {
     from: `"CoreFlow Team" <${process.env.USER_MAIL}>`,
