@@ -5,13 +5,13 @@ import axios from "axios";
 /**
  * Axios instance with unified base URL and auth headers.
  */
-const rawBaseUrl = import.meta.env.VITE_URL || "http://localhost:8000";
-const normalizedBaseUrl = rawBaseUrl
-  .replace(/\/+$|\/api$/i, "")
-  .replace(/\/+$/, "") || "http://localhost:8000";
+// const rawBaseUrl = import.meta.env.VITE_URL || "http://localhost:8000";
+// const normalizedBaseUrl = rawBaseUrl
+//   .replace(/\/+$|\/api$/i, "")
+//   .replace(/\/+$/, "") || "http://localhost:8000";
 
 export const apiClient = axios.create({
-  baseURL: normalizedBaseUrl,
+  baseURL: import.meta.env.VITE_URL || "http://localhost:8000",
   withCredentials: true,
 });
 

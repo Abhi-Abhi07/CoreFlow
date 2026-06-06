@@ -76,6 +76,7 @@ export const sendOTPMail = async (otp, email) => {
     from: `"CoreFlow Security" <${process.env.USER_MAIL}>`,
     to: email,
     subject: "Password Reset OTP",
+    text: `Your OTP for password reset is: ${otp}. It expires in 10 minutes. If you did not request this, please ignore this email.`,
     // 3. Professional HTML template layout
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #e6e6e6; border-radius: 8px;">

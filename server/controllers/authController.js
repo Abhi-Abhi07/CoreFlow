@@ -300,8 +300,9 @@ export const logout = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
   try {
-    const { email } = req.body;
-    
+    let { email } = req.body;
+    email = email?.trim().toLowerCase();
+
     if (!email) {
       return res.status(400).json({
         success: false,
@@ -345,7 +346,8 @@ export const forgotPassword = async (req, res) => {
 export const verifyOTP = async (req, res) => {
   try {
     const { otp } = req.body;
-    const { email } = req.params; // Destructure email from params cleanly
+    let email = req.params.email;
+    email = email?.trim().toLowerCase();
 
     if (!otp) {
       return res.status(400).json({
@@ -406,7 +408,8 @@ export const verifyOTP = async (req, res) => {
 export const changePassword = async (req, res) => {
   try {
     const { newPassword, confirmPassword } = req.body;
-    const { email } = req.params; // Make sure your route has /change-password/:email
+    let email = req.params.email; // Make sure your route has /change-password/:email
+    email = email?.trim().toLowerCase();
 
     if (!newPassword || !confirmPassword) {
       return res.status(400).json({
