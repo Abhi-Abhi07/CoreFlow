@@ -25,7 +25,7 @@ app.use(helmet());
 // CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173",               // Local frontend development
-  "https://core-flow-server.vercel.app"   // Production client deployment
+  "https://core-flow-alpha.vercel.app"   // Production client deployment
 ];
 
 app.use(cors({
