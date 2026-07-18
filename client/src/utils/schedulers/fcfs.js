@@ -25,6 +25,7 @@ export function computeFCFS(processes, contextSwitch = 0) {
         start: currentTime,
         end: proc.arrivalTime,
       });
+      lastActiveProcessId = null;
       currentTime = proc.arrivalTime;
     }
 
