@@ -42,6 +42,7 @@ export function computeRR(processes, timeQuantum, contextSwitch = 0) {
           start: currentTime,
           end: nextArrivalProc.arrivalTime
         });
+        lastActiveProcessId = null;
         currentTime = nextArrivalProc.arrivalTime;
         checkArrivals();
       } else {
