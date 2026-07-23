@@ -30,6 +30,7 @@ export function computeSJF(processes, contextSwitch = 0) {
           start: currentTime,
           end: nextArrival,
         });
+        lastActiveProcessId = null;
         currentTime = nextArrival;
         continue; // Re-evaluate ready queue at the updated time jump
       } else {
